@@ -1,0 +1,23 @@
+<ng-template #loading>
+    <h2 class="loading">Loading product</h2>
+</ng-template>
+
+<div *ngIf="product$ | async as product;else loading">
+    <ng-container *ngIf="product?.id > 0;else notfound">
+        <h2>{{product.name | uppercase}}</h2>
+        <img style="float:right" [src]="product.imageUrl" *ngIf="product.imageUrl" width="250" />
+        <h3>{{product.description}}</h3>
+        <p>Price: {{product.price | currency:'CAD':'symbol-narrow':'.2'}}</p>
+        <p>Fixed price? {{product.fixedPrice}}</p>
+        <p>Discontinued? {{ product.discontinued }}</p>
+        <p>Modified date:{{product.modifiedDate | date}}</p>
+        <p>
+            <button (click)="newFavourite(product)">
+                Add to favourites
+            </button>
+        </p>
+    </ng-container>
+    <ng-template #notfound>
+        <h2>Product not found!</h2>
+    </ng-template>
+</div>
